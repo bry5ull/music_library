@@ -3,21 +3,27 @@ import Gallery from './components/Gallery'
 import SearchBar from './components/SearchBar'
 
 
-const App = () => {
-  let [search, setSearch] = useState('')
-  let [message, setMessage] = useState('Search for Music!')
-  let [data, setData] = useState([])
+function App() {
+  const [search, setSearch] = useState('')
+  const [message, setMessage] = useState('Search for Music!')
+  const [data, setData] = useState([])
 
   const API_URL = 'https://itunes.apple.com/search?term='
+
+  const handleSearch = (e, term) => {
+    e.preventDefault()
+    setSearch(term)
+}
 
   useEffect(() => {
       if(search) {
           const fetchData = async () => {
               document.title = `${search} music`
-              const response = await fetch(API_URL+search)
-              const resData = await response.json()
-              if (resData.results.length > 0) {
-                  return setData(resData.results)
+              const response = await fetch (`https://itunes.apple.com/search?term=${search}`)
+              const data = await response.json()
+              console.log(data)
+              if (data.results.length > 0) {
+                  return setData(data.results)
               } else {
                   return setMessage('Not Found.')
               }
@@ -26,10 +32,6 @@ const App = () => {
       }
   }, [search])
 
-  const handleSearch = (e, term) => {
-      e.preventDefault()
-      setSearch(term)
-  }
 
   return (
       <div>
@@ -37,7 +39,7 @@ const App = () => {
           {message}
           <Gallery data={data} />
       </div>
-  )
+  );
 }
 
 export default App
