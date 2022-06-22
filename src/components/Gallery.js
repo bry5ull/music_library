@@ -1,4 +1,6 @@
+import { useContext } from 'react'
 import GalleryItem from './GalleryItem'
+import { DataContext } from '../DataContext.js'
 
 function Gallery(props){
 
@@ -10,7 +12,7 @@ function Gallery(props){
 
     return (
         <div>
-        {display}
+            {display}
         </div>
     )
 }
